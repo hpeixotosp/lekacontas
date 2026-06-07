@@ -106,8 +106,10 @@ export default function DashboardPage() {
 
   const balance = totalCredits - totalDebits
 
-  // Calcular saldo acumulado (todos os meses)
-  const accumulatedBalance = chartData.reduce((sum, m) => sum + m.saldo, 0)
+  // Calcular saldo acumulado até o mês selecionado (inclusive)
+  const accumulatedBalance = chartData
+    .filter(m => m.month <= selectedMonth)
+    .reduce((sum, m) => sum + m.saldo, 0)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
@@ -179,7 +181,7 @@ export default function DashboardPage() {
             />
             <div className="text-right">
               <p className="text-xs text-blue-200 font-medium uppercase tracking-wider mb-1">
-                Saldo acumulado (2026)
+                Saldo acumulado (até {['', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'][selectedMonth]} / {selectedYear})
               </p>
               <p className={`text-2xl font-bold tabular-nums ${accumulatedBalance >= 0 ? 'text-white' : 'text-red-300'}`}>
                 {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(accumulatedBalance)}
