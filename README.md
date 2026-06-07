@@ -1,6 +1,6 @@
 # Leka Dashboard
 
-Dashboard financeiro pessoal estilo extrato bancário, desenvolvido com Next.js 14, React, Shadcn UI e Supabase.
+Dashboard financeiro pessoal estilo extrato bancário, desenvolvido com Next.js 16, React 19, Shadcn UI e Vercel Postgres (Neon).
 
 ## 🚀 Setup
 
@@ -12,25 +12,26 @@ cd lekacontas
 npm install
 ```
 
-### 2. Configure o Supabase
+### 2. Configure o Vercel Postgres (Neon)
 
-1. Crie uma conta em [supabase.com](https://supabase.com)
-2. Crie um novo projeto
-3. No Supabase, vá em **SQL Editor** e execute o conteúdo de `schema.sql`
-4. Vá em **Project Settings → API** e copie:
-   - `Project URL`
-   - `anon public key`
+1. Crie uma conta ou acesse o projeto no [vercel.com](https://vercel.com)
+2. Vá na aba **Storage** e crie um banco **Neon Postgres**
+3. Conecte o banco de dados ao seu projeto
+4. Copie a variável `DATABASE_URL` na aba **.env.local** do dashboard da Neon/Vercel
 
 ### 3. Configure as variáveis de ambiente
 
 Crie um arquivo `.env.local` na raiz do projeto:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://SEU_PROJECT_ID.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_anon_key_aqui
+DATABASE_URL=postgresql://...sua_url_aqui...
 ```
 
-### 4. Inicie o servidor de desenvolvimento
+### 4. Inicialize o Banco de Dados
+
+Você pode inicializar as tabelas executando o script `schema.sql` diretamente no editor SQL do painel do Neon ou rodando o servidor e executando o seed.
+
+### 5. Inicie o servidor de desenvolvimento
 
 ```bash
 npm run dev
@@ -38,9 +39,9 @@ npm run dev
 
 Acesse [http://localhost:3000](http://localhost:3000)
 
-### 5. Carregue os dados iniciais
+### 6. Carregue os dados iniciais
 
-Com o servidor rodando, acesse a rota de seed:
+Com o servidor rodando, acesse a rota de seed via POST:
 
 ```bash
 curl -X POST http://localhost:3000/api/seed
@@ -51,18 +52,16 @@ Ou clique no botão **"Seed"** no canto superior direito do dashboard.
 ## 🌐 Deploy no Vercel
 
 1. Conecte seu repositório GitHub ao Vercel
-2. No painel do Vercel, adicione as variáveis de ambiente:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-3. Deploy!
+2. Conecte o banco de dados no painel da Vercel (aba Storage)
+3. Deploy! O Vercel injeta a variável `DATABASE_URL` automaticamente.
 
 ## 🛠 Tecnologias
 
-- **Next.js 14** — App Router
-- **React 18** — UI
+- **Next.js 16** — App Router
+- **React 19** — UI
 - **Shadcn UI** — Componentes
 - **Tailwind CSS v4** — Estilização
-- **Supabase** — Banco de dados PostgreSQL
+- **Vercel Postgres (Neon)** — Banco de dados PostgreSQL
 - **Recharts** — Gráficos
 - **Lucide React** — Ícones
 - **Sonner** — Notificações toast
