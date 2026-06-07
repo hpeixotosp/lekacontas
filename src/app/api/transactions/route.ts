@@ -16,8 +16,9 @@ export async function GET(request: NextRequest) {
     if (month && year) {
       const monthNum = parseInt(month)
       const yearNum = parseInt(year)
+      const lastDay = new Date(yearNum, monthNum, 0).getDate()
       const startDate = `${yearNum}-${String(monthNum).padStart(2, '0')}-01`
-      const endDate = `${yearNum}-${String(monthNum).padStart(2, '0')}-31`
+      const endDate = `${yearNum}-${String(monthNum).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`
       data = await sql`
         SELECT * FROM transactions
         WHERE date >= ${startDate} AND date <= ${endDate}
