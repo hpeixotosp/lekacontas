@@ -20,12 +20,12 @@ export async function GET(request: NextRequest) {
       const startDate = `${yearNum}-${String(monthNum).padStart(2, '0')}-01`
       const endDate = `${yearNum}-${String(monthNum).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`
       data = await sql`
-        SELECT * FROM transactions
+        SELECT id, date::text as date, description, amount, type, category, installment_current, installment_total FROM transactions
         WHERE date >= ${startDate} AND date <= ${endDate}
         ORDER BY date ASC
       `
     } else {
-      data = await sql`SELECT * FROM transactions ORDER BY date ASC`
+      data = await sql`SELECT id, date::text as date, description, amount, type, category, installment_current, installment_total FROM transactions ORDER BY date ASC`
     }
 
     const formattedData = data.map((t: any) => ({

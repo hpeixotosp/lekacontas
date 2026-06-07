@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const sql = getDb()
     const data = await sql`
-      SELECT date, amount, type FROM transactions ORDER BY date ASC
+      SELECT date::text as date, amount, type FROM transactions ORDER BY date ASC
     `
 
     const months = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]

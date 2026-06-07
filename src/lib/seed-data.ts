@@ -31,12 +31,12 @@ export const seedTransactions: SeedTransaction[] = [
 
   // Shopee à vista - março
   { date: '2026-03-11', description: 'SHOPEE *YUNYSHOP', amount: 51.96, type: 'debit', category: 'Shopee' },
-  { date: '2026-03-16', description: 'SHOPEE *SHPSTECNOLOGIA', amount: 49.90, type: 'debit', category: 'Shopee' },
+  { date: '2026-03-16', description: 'SHOPEE *SHPSTECNOLOGIA', amount: 49.90, type: 'credit', category: 'Shopee' },
   { date: '2026-03-16', description: 'SHOPEE *MontenegroIndu', amount: 26.89, type: 'debit', category: 'Shopee' },
   { date: '2026-03-16', description: 'SHOPEE *MMNacional', amount: 53.80, type: 'debit', category: 'Shopee' },
   { date: '2026-03-16', description: 'SHOPEE *DAFUSHOP', amount: 21.99, type: 'debit', category: 'Shopee' },
-  { date: '2026-03-18', description: 'SHOPEE SAO PAULO', amount: 31.98, type: 'debit', category: 'Shopee' },
-  { date: '2026-03-20', description: 'SHOPEE SAO PAULO', amount: 69.90, type: 'debit', category: 'Shopee' },
+  { date: '2026-03-18', description: 'SHOPEE SAO PAULO', amount: 31.98, type: 'credit', category: 'Shopee' },
+  { date: '2026-03-20', description: 'SHOPEE SAO PAULO', amount: 69.90, type: 'credit', category: 'Shopee' },
 
   // Shopee parceladas - março
   { date: '2026-03-13', description: 'SHOPEE (Hortolandia)', amount: 53.52, type: 'debit', category: 'Shopee', installment_current: 1, installment_total: 5 },
@@ -100,8 +100,8 @@ export const seedTransactions: SeedTransaction[] = [
   { date: '2026-05-17', description: 'SHOPEE DIADEMA (B)', amount: 56.65, type: 'debit', category: 'Shopee', installment_current: 1, installment_total: 12 },
   { date: '2026-05-19', description: 'SHOPEE DIADEMA (C)', amount: 50.99, type: 'debit', category: 'Shopee', installment_current: 1, installment_total: 8 },
   { date: '2026-05-20', description: 'SHOPEE DIADEMA (D)', amount: 53.15, type: 'debit', category: 'Shopee', installment_current: 1, installment_total: 6 },
-  { date: '2026-05-21', description: 'SHOPEE SAO PAULO', amount: 23.93, type: 'debit', category: 'Shopee' },
-  { date: '2026-05-25', description: 'SHOPEE SAO PAULO', amount: 129.90, type: 'debit', category: 'Shopee' },
+  { date: '2026-05-21', description: 'SHOPEE SAO PAULO', amount: 23.93, type: 'credit', category: 'Shopee' },
+  { date: '2026-05-25', description: 'SHOPEE SAO PAULO', amount: 129.90, type: 'credit', category: 'Shopee' },
 
   // Shopee parcelas continuadas - maio
   { date: '2026-05-13', description: 'SHOPEE (Hortolandia)', amount: 53.52, type: 'debit', category: 'Shopee', installment_current: 3, installment_total: 5 },
