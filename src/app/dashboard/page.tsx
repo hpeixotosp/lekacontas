@@ -98,11 +98,11 @@ export default function DashboardPage() {
   // Calcular resumo do mês
   const totalCredits = transactions
     .filter(t => t.type === 'credit')
-    .reduce((sum, t) => sum + t.amount, 0)
+    .reduce((sum, t) => sum + Number(t.amount), 0)
 
   const totalDebits = transactions
     .filter(t => t.type === 'debit')
-    .reduce((sum, t) => sum + t.amount, 0)
+    .reduce((sum, t) => sum + Number(t.amount), 0)
 
   const balance = totalCredits - totalDebits
 

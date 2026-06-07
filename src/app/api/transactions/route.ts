@@ -28,7 +28,12 @@ export async function GET(request: NextRequest) {
       data = await sql`SELECT * FROM transactions ORDER BY date ASC`
     }
 
-    return NextResponse.json({ data, success: true })
+    const formattedData = data.map((t: any) => ({
+      ...t,
+      amount: Number(t.amount)
+    }))
+
+    return NextResponse.json({ data: formattedData, success: true })
   } catch (error) {
     console.error('GET /api/transactions error:', error)
     return NextResponse.json({ error: 'Erro ao buscar transações', success: false }, { status: 500 })
