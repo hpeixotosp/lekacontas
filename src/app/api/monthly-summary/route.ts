@@ -1,18 +1,14 @@
 import { NextResponse } from 'next/server'
-import { getSupabase } from '@/lib/supabase'
+import { getDb } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
-// GET /api/monthly-summary - retorna resumo de todos os meses
 export async function GET() {
   try {
-    const supabase = getSupabase()
-    const { data, error } = await supabase
-      .from('transactions')
-      .select('date, amount, type')
-      .order('date', { ascending: true })
-
-    if (error) throw error
+    const sql = getDb()
+    const data = await sql`
+      SELECT date, amount, type FROM transactions ORDER BY date ASC
+    `
 
     const months = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     const year = 2026
@@ -20,20 +16,19 @@ export async function GET() {
 
     const summary = months.map(month => {
       const monthStr = String(month).padStart(2, '0')
-      const monthTransactions = data?.filter(t => {
-        const tDate = t.date
-        // Jan 30 conta em fevereiro
+      const monthTransactions = data.filter((t: any) => {
+        const tDate = String(t.date).substring(0, 10)
         if (month === 2 && tDate === '2026-01-30') return true
         return tDate.startsWith(`${year}-${monthStr}`)
-      }) || []
+      })
 
       const totalCredits = monthTransactions
-        .filter(t => t.type === 'credit')
-        .reduce((sum, t) => sum + Number(t.amount), 0)
+        .filter((t: any) => t.type === 'credit')
+        .reduce((sum: number, t: any) => sum + Number(t.amount), 0)
 
       const totalDebits = monthTransactions
-        .filter(t => t.type === 'debit')
-        .reduce((sum, t) => sum + Number(t.amount), 0)
+        .filter((t: any) => t.type === 'debit')
+        .reduce((sum: number, t: any) => sum + Number(t.amount), 0)
 
       return {
         month,

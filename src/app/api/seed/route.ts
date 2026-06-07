@@ -1,36 +1,38 @@
 import { NextResponse } from 'next/server'
-import { getSupabase } from '@/lib/supabase'
+import { getDb } from '@/lib/db'
 import { seedTransactions } from '@/lib/seed-data'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST() {
   try {
-    const supabase = getSupabase()
+    const sql = getDb()
 
-    // Limpar tabela existente
-    const { error: deleteError } = await supabase
-      .from('transactions')
-      .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000')
+    // Limpar tabela
+    await sql`DELETE FROM transactions`
 
-    if (deleteError) {
-      console.error('Delete error:', deleteError)
-    }
-
-    // Inserir dados de seed em lotes
+    // Inserir em lotes de 50
     const batchSize = 50
     let inserted = 0
 
     for (let i = 0; i < seedTransactions.length; i += batchSize) {
       const batch = seedTransactions.slice(i, i + batchSize)
-      const { data, error } = await supabase
-        .from('transactions')
-        .insert(batch)
-        .select()
 
-      if (error) throw error
-      inserted += data?.length || 0
+      for (const t of batch) {
+        await sql`
+          INSERT INTO transactions (date, description, amount, type, category, installment_current, installment_total)
+          VALUES (
+            ${t.date},
+            ${t.description},
+            ${t.amount},
+            ${t.type},
+            ${t.category},
+            ${t.installment_current ?? null},
+            ${t.installment_total ?? null}
+          )
+        `
+        inserted++
+      }
     }
 
     return NextResponse.json({
@@ -40,7 +42,11 @@ export async function POST() {
     })
   } catch (error) {
     console.error('Seed error:', error)
-    return NextResponse.json({ error: 'Erro ao executar seed', success: false, details: String(error) }, { status: 500 })
+    return NextResponse.json({
+      error: 'Erro ao executar seed',
+      success: false,
+      details: String(error),
+    }, { status: 500 })
   }
 }
 

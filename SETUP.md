@@ -1,65 +1,74 @@
-# Leka Dashboard — Configuração Supabase
+# Leka Dashboard — Configuração Vercel Postgres
 
-## Passos para configurar o banco de dados
+## Setup do banco de dados
 
-### 1. Criar conta no Supabase
+### 1. Conectar o repositório ao Vercel
 
-1. Acesse [supabase.com](https://supabase.com)
-2. Crie uma conta gratuita
-3. Clique em **"New project"**
-4. Escolha um nome (ex: `lekacontas`) e uma senha forte
-5. Aguarde a criação do projeto (~2 minutos)
+1. Acesse [vercel.com](https://vercel.com) e faça login
+2. Clique em **"Add New → Project"**
+3. Importe o repositório `hpeixotosp/lekacontas` do GitHub
+4. **Não faça o deploy ainda** — primeiro configure o banco
 
-### 2. Criar a tabela
+### 2. Criar o banco de dados Postgres
 
-1. No painel do Supabase, vá em **SQL Editor** (ícone de banco no menu lateral)
-2. Clique em **"New query"**
-3. Cole e execute o conteúdo do arquivo `schema.sql` deste projeto
+1. No painel do Vercel, acesse **Storage** no menu lateral
+2. Clique em **"Create Database"**
+3. Escolha **"Neon Postgres"** (ou Postgres)
+4. Dê um nome (ex: `lekacontas-db`) e confirme
 
-### 3. Obter as credenciais
+### 3. Conectar o banco ao projeto
 
-1. Vá em **Project Settings** → **API**
-2. Copie:
-   - **Project URL** (ex: `https://abcdefgh.supabase.co`)
-   - **Project API keys** → `anon` `public`
+1. Na página do banco, clique em **"Connect Project"**
+2. Selecione o projeto `lekacontas`
+3. Isso vai adicionar automaticamente a variável `DATABASE_URL` ao projeto
 
-### 4. Criar o arquivo .env.local
+### 4. Criar a tabela
 
-Na raiz do projeto, crie um arquivo `.env.local`:
+1. No painel do Neon (ou Vercel Storage), abra o **SQL Editor**
+2. Cole e execute o conteúdo do arquivo `schema.sql`
 
+### 5. Configurar localmente
+
+1. No Vercel, vá em **Storage → seu banco → .env.local tab**
+2. Copie o snippet com `DATABASE_URL`
+3. Cole em um arquivo `.env.local` na raiz do projeto:
+   ```
+   DATABASE_URL=postgresql://...
+   ```
+
+### 6. Rodar localmente
+
+```bash
+npm run dev
 ```
-NEXT_PUBLIC_SUPABASE_URL=https://SEU_ID.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anon_aqui
-```
 
-### 5. Carregar os dados iniciais
+Acesse [http://localhost:3000](http://localhost:3000)
 
-Após iniciar o servidor (`npm run dev`):
+### 7. Carregar os dados iniciais
 
-**Opção A** — pelo navegador: clique no botão **"Seed"** no dashboard
-
-**Opção B** — pelo terminal:
+- Clique no botão **"Seed"** no canto superior direito do dashboard, ou:
 ```bash
 curl -X POST http://localhost:3000/api/seed
 ```
 
 ---
 
-## Deploy no Vercel
+## Deploy
 
-### 1. Variáveis de ambiente no Vercel
+Após conectar o banco, o Vercel já terá as variáveis de ambiente configuradas automaticamente. Basta fazer um novo commit/push para acionar o deploy.
 
-No painel do Vercel, em **Settings → Environment Variables**, adicione:
-
-| Nome | Valor |
-|------|-------|
-| `NEXT_PUBLIC_SUPABASE_URL` | `https://SEU_ID.supabase.co` |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `sua_chave_anon` |
-
-### 2. Seed em produção
-
-Após o deploy, acesse:
+```bash
+git add -A && git commit -m "chore: migrar para Vercel Postgres" && git push
 ```
-https://seu-dominio.vercel.app/api/seed
-```
-Com método POST, ou use o botão "Seed" no dashboard em produção.
+
+## Tecnologias
+
+| Tecnologia | Uso |
+|---|---|
+| Next.js 16 (App Router) | Framework |
+| React 19 + Shadcn UI | UI |
+| Tailwind CSS v4 | Estilização |
+| Neon Postgres | Banco de dados (via Vercel) |
+| @neondatabase/serverless | Driver SQL |
+| Recharts | Gráficos |
+| Sonner | Notificações |

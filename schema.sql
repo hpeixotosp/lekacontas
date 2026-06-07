@@ -1,8 +1,5 @@
 -- Schema SQL para o Leka Dashboard
--- Execute este SQL no Supabase: https://app.supabase.com/project/_/database/tables
-
--- Habilitar extensão UUID
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+-- Execute este SQL no Query Editor do Neon (via Vercel Postgres)
 
 -- Tabela de transações
 CREATE TABLE IF NOT EXISTS transactions (
@@ -36,11 +33,3 @@ CREATE OR REPLACE TRIGGER update_transactions_updated_at
   BEFORE UPDATE ON transactions
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
-
--- Row Level Security (RLS) - permite acesso público (sem auth)
-ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Allow all operations" ON transactions
-  FOR ALL
-  USING (true)
-  WITH CHECK (true);
