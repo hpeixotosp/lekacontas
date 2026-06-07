@@ -68,7 +68,7 @@ export const seedTransactions: SeedTransaction[] = [
   // Shopee novas - abril
   { date: '2026-04-09', description: 'SHOPEE (Hortolandia)', amount: 37.56, type: 'debit', category: 'Shopee', installment_current: 1, installment_total: 3 },
   { date: '2026-04-24', description: 'SHOPEE UnhasEst', amount: 71.08, type: 'debit', category: 'Shopee', installment_current: 1, installment_total: 12 },
-  { date: '2026-04-25', description: 'Produtos Globo Cartola', amount: 5.01, type: 'debit', category: 'Shopee', installment_current: 1, installment_total: 12 },
+
 
   // Shopee parcelas de março - abril
   { date: '2026-04-13', description: 'SHOPEE (Hortolandia)', amount: 53.52, type: 'debit', category: 'Shopee', installment_current: 2, installment_total: 5 },
@@ -108,7 +108,7 @@ export const seedTransactions: SeedTransaction[] = [
   { date: '2026-05-19', description: 'SHOPEE *Esmalte', amount: 14.27, type: 'debit', category: 'Shopee', installment_current: 3, installment_total: 10 },
   { date: '2026-05-09', description: 'SHOPEE (Hortolandia)', amount: 37.56, type: 'debit', category: 'Shopee', installment_current: 2, installment_total: 3 },
   { date: '2026-05-24', description: 'SHOPEE UnhasEst', amount: 71.08, type: 'debit', category: 'Shopee', installment_current: 2, installment_total: 12 },
-  { date: '2026-05-25', description: 'Produtos Globo Cartola', amount: 5.01, type: 'debit', category: 'Shopee', installment_current: 2, installment_total: 12 },
+
 
   // Máquina Gabi
   { date: '2026-05-15', description: 'Máquina Gabi', amount: 57.00, type: 'debit', category: 'Máquina Gabi', installment_current: 2, installment_total: 15 },
@@ -132,7 +132,7 @@ export const seedTransactions: SeedTransaction[] = [
   { date: '2026-06-19', description: 'SHOPEE *Esmalte', amount: 14.27, type: 'debit', category: 'Shopee', installment_current: 4, installment_total: 10 },
   { date: '2026-06-09', description: 'SHOPEE (Hortolandia)', amount: 37.56, type: 'debit', category: 'Shopee', installment_current: 3, installment_total: 3 },
   { date: '2026-06-24', description: 'SHOPEE UnhasEst', amount: 71.08, type: 'debit', category: 'Shopee', installment_current: 3, installment_total: 12 },
-  { date: '2026-06-25', description: 'Produtos Globo Cartola', amount: 5.01, type: 'debit', category: 'Shopee', installment_current: 3, installment_total: 12 },
+
   { date: '2026-06-16', description: 'SHOPEE DIADEMA (A)', amount: 51.32, type: 'debit', category: 'Shopee', installment_current: 2, installment_total: 12 },
   { date: '2026-06-17', description: 'SHOPEE DIADEMA (B)', amount: 56.65, type: 'debit', category: 'Shopee', installment_current: 2, installment_total: 12 },
   { date: '2026-06-19', description: 'SHOPEE DIADEMA (C)', amount: 50.99, type: 'debit', category: 'Shopee', installment_current: 2, installment_total: 8 },
@@ -148,7 +148,7 @@ export const seedTransactions: SeedTransaction[] = [
   { date: '2026-07-13', description: 'SHOPEE (Hortolandia)', amount: 53.52, type: 'debit', category: 'Shopee', installment_current: 5, installment_total: 5 },
   { date: '2026-07-19', description: 'SHOPEE *Esmalte', amount: 14.27, type: 'debit', category: 'Shopee', installment_current: 5, installment_total: 10 },
   { date: '2026-07-24', description: 'SHOPEE UnhasEst', amount: 71.08, type: 'debit', category: 'Shopee', installment_current: 4, installment_total: 12 },
-  { date: '2026-07-25', description: 'Produtos Globo Cartola', amount: 5.01, type: 'debit', category: 'Shopee', installment_current: 4, installment_total: 12 },
+
   { date: '2026-07-02', description: 'lpmoda DIADEMA', amount: 37.85, type: 'debit', category: 'Shopee', installment_current: 2, installment_total: 5 },
   { date: '2026-07-16', description: 'SHOPEE DIADEMA (A)', amount: 51.32, type: 'debit', category: 'Shopee', installment_current: 3, installment_total: 12 },
   { date: '2026-07-17', description: 'SHOPEE DIADEMA (B)', amount: 56.65, type: 'debit', category: 'Shopee', installment_current: 3, installment_total: 12 },
@@ -163,7 +163,7 @@ export const seedTransactions: SeedTransaction[] = [
   // ============================================================
   { date: '2026-08-19', description: 'SHOPEE *Esmalte', amount: 14.27, type: 'debit', category: 'Shopee', installment_current: 6, installment_total: 10 },
   { date: '2026-08-24', description: 'SHOPEE UnhasEst', amount: 71.08, type: 'debit', category: 'Shopee', installment_current: 5, installment_total: 12 },
-  { date: '2026-08-25', description: 'Produtos Globo Cartola', amount: 5.01, type: 'debit', category: 'Shopee', installment_current: 5, installment_total: 12 },
+
   { date: '2026-08-02', description: 'lpmoda DIADEMA', amount: 37.85, type: 'debit', category: 'Shopee', installment_current: 3, installment_total: 5 },
   { date: '2026-08-16', description: 'SHOPEE DIADEMA (A)', amount: 51.32, type: 'debit', category: 'Shopee', installment_current: 4, installment_total: 12 },
   { date: '2026-08-17', description: 'SHOPEE DIADEMA (B)', amount: 56.65, type: 'debit', category: 'Shopee', installment_current: 4, installment_total: 12 },
@@ -178,7 +178,7 @@ export const seedTransactions: SeedTransaction[] = [
   // ============================================================
   { date: '2026-09-19', description: 'SHOPEE *Esmalte', amount: 14.27, type: 'debit', category: 'Shopee', installment_current: 7, installment_total: 10 },
   { date: '2026-09-24', description: 'SHOPEE UnhasEst', amount: 71.08, type: 'debit', category: 'Shopee', installment_current: 6, installment_total: 12 },
-  { date: '2026-09-25', description: 'Produtos Globo Cartola', amount: 5.01, type: 'debit', category: 'Shopee', installment_current: 6, installment_total: 12 },
+
   { date: '2026-09-02', description: 'lpmoda DIADEMA', amount: 37.85, type: 'debit', category: 'Shopee', installment_current: 4, installment_total: 5 },
   { date: '2026-09-16', description: 'SHOPEE DIADEMA (A)', amount: 51.32, type: 'debit', category: 'Shopee', installment_current: 5, installment_total: 12 },
   { date: '2026-09-17', description: 'SHOPEE DIADEMA (B)', amount: 56.65, type: 'debit', category: 'Shopee', installment_current: 5, installment_total: 12 },
@@ -192,7 +192,7 @@ export const seedTransactions: SeedTransaction[] = [
   // ============================================================
   { date: '2026-10-19', description: 'SHOPEE *Esmalte', amount: 14.27, type: 'debit', category: 'Shopee', installment_current: 8, installment_total: 10 },
   { date: '2026-10-24', description: 'SHOPEE UnhasEst', amount: 71.08, type: 'debit', category: 'Shopee', installment_current: 7, installment_total: 12 },
-  { date: '2026-10-25', description: 'Produtos Globo Cartola', amount: 5.01, type: 'debit', category: 'Shopee', installment_current: 7, installment_total: 12 },
+
   { date: '2026-10-02', description: 'lpmoda DIADEMA', amount: 37.85, type: 'debit', category: 'Shopee', installment_current: 5, installment_total: 5 },
   { date: '2026-10-16', description: 'SHOPEE DIADEMA (A)', amount: 51.32, type: 'debit', category: 'Shopee', installment_current: 6, installment_total: 12 },
   { date: '2026-10-17', description: 'SHOPEE DIADEMA (B)', amount: 56.65, type: 'debit', category: 'Shopee', installment_current: 6, installment_total: 12 },
@@ -206,7 +206,7 @@ export const seedTransactions: SeedTransaction[] = [
   // ============================================================
   { date: '2026-11-19', description: 'SHOPEE *Esmalte', amount: 14.27, type: 'debit', category: 'Shopee', installment_current: 9, installment_total: 10 },
   { date: '2026-11-24', description: 'SHOPEE UnhasEst', amount: 71.08, type: 'debit', category: 'Shopee', installment_current: 8, installment_total: 12 },
-  { date: '2026-11-25', description: 'Produtos Globo Cartola', amount: 5.01, type: 'debit', category: 'Shopee', installment_current: 8, installment_total: 12 },
+
   { date: '2026-11-16', description: 'SHOPEE DIADEMA (A)', amount: 51.32, type: 'debit', category: 'Shopee', installment_current: 7, installment_total: 12 },
   { date: '2026-11-17', description: 'SHOPEE DIADEMA (B)', amount: 56.65, type: 'debit', category: 'Shopee', installment_current: 7, installment_total: 12 },
   { date: '2026-11-19', description: 'SHOPEE DIADEMA (C)', amount: 50.99, type: 'debit', category: 'Shopee', installment_current: 7, installment_total: 8 },
@@ -218,7 +218,7 @@ export const seedTransactions: SeedTransaction[] = [
   // ============================================================
   { date: '2026-12-19', description: 'SHOPEE *Esmalte', amount: 14.27, type: 'debit', category: 'Shopee', installment_current: 10, installment_total: 10 },
   { date: '2026-12-24', description: 'SHOPEE UnhasEst', amount: 71.08, type: 'debit', category: 'Shopee', installment_current: 9, installment_total: 12 },
-  { date: '2026-12-25', description: 'Produtos Globo Cartola', amount: 5.01, type: 'debit', category: 'Shopee', installment_current: 9, installment_total: 12 },
+
   { date: '2026-12-16', description: 'SHOPEE DIADEMA (A)', amount: 51.32, type: 'debit', category: 'Shopee', installment_current: 8, installment_total: 12 },
   { date: '2026-12-17', description: 'SHOPEE DIADEMA (B)', amount: 56.65, type: 'debit', category: 'Shopee', installment_current: 8, installment_total: 12 },
   { date: '2026-12-19', description: 'SHOPEE DIADEMA (C)', amount: 50.99, type: 'debit', category: 'Shopee', installment_current: 8, installment_total: 8 },
