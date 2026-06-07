@@ -52,7 +52,7 @@ export function SummaryCards({ totalCredits, totalDebits, balance, isLoading }: 
           <div
             key={card.id}
             id={card.id}
-            className={`rounded-2xl border backdrop-blur-sm p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl ${card.bgClass}`}
+            className={`rounded-2xl border backdrop-blur-sm p-4 md:p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl ${card.bgClass}`}
           >
             <div className="flex items-start justify-between mb-3">
               <div className={`p-2.5 rounded-xl ${card.iconBg}`}>
@@ -65,7 +65,7 @@ export function SummaryCards({ totalCredits, totalDebits, balance, isLoading }: 
             {isLoading ? (
               <div className="h-8 bg-white/10 rounded-lg animate-pulse" />
             ) : (
-              <p className={`text-2xl font-bold ${card.valueClass} tabular-nums`}>
+              <p className={`text-xl md:text-2xl font-bold ${card.valueClass} tabular-nums`}>
                 {formatCurrency(card.value)}
               </p>
             )}

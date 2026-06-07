@@ -140,7 +140,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full md:w-auto">
               <button
                 onClick={handleRefresh}
                 className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-400 hover:text-white transition-all duration-200"
@@ -150,18 +150,8 @@ export default function DashboardPage() {
                 <RefreshCw className="w-4 h-4" />
               </button>
               <button
-                onClick={handleSeed}
-                disabled={isSeeding}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-400 hover:text-white transition-all duration-200 text-sm font-medium disabled:opacity-50"
-                title="Reiniciar dados iniciais"
-                id="btn-seed"
-              >
-                <Database className="w-4 h-4" />
-                {isSeeding ? 'Carregando...' : 'Seed'}
-              </button>
-              <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-semibold text-sm shadow-lg shadow-blue-500/25 transition-all duration-200 hover:scale-105"
+                className="flex-1 md:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-semibold text-sm shadow-lg shadow-blue-500/25 transition-all duration-200 hover:scale-105"
                 id="btn-add-transaction"
               >
                 <PlusCircle className="w-4 h-4" />
@@ -179,7 +169,7 @@ export default function DashboardPage() {
               selectedYear={selectedYear}
               onMonthChange={(month) => setSelectedMonth(month)}
             />
-            <div className="text-right">
+            <div className="text-center md:text-right w-full md:w-auto">
               <p className="text-xs text-blue-200 font-medium uppercase tracking-wider mb-1">
                 Saldo acumulado (até {['', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'][selectedMonth]} / {selectedYear})
               </p>
@@ -201,7 +191,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Chart */}
-        <div className="mb-6 rounded-2xl bg-white/[0.03] border border-white/[0.08] p-6 backdrop-blur-sm">
+        <div className="mb-6 rounded-2xl bg-white/[0.03] border border-white/[0.08] p-4 md:p-6 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-semibold text-white flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-blue-400" />
@@ -213,7 +203,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Transactions */}
-        <div className="rounded-2xl bg-white/[0.03] border border-white/[0.08] p-6 backdrop-blur-sm">
+        <div className="rounded-2xl bg-white/[0.03] border border-white/[0.08] p-4 md:p-6 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-base font-semibold text-white">
               Extrato —{' '}

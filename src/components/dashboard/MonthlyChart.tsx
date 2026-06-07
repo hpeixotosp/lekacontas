@@ -59,7 +59,7 @@ export function MonthlyChart({ data, isLoading }: MonthlyChartProps) {
   }
 
   return (
-    <div className="w-full h-72">
+    <div className="w-full h-60 md:h-72">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}

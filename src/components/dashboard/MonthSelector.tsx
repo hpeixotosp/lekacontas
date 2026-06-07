@@ -29,7 +29,7 @@ export function MonthSelector({ selectedMonth, selectedYear, onMonthChange }: Mo
   const currentMonth = MONTHS[currentIndex]
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center justify-center md:justify-start gap-3 w-full md:w-auto">
       <button
         onClick={handlePrev}
         disabled={currentIndex === 0}
