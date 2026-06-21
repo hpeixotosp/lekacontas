@@ -40,32 +40,82 @@ export async function GET(request: NextRequest) {
   }
 }
 
+function getInstallmentDate(baseDateStr: string, monthsToAdd: number): string {
+  const [year, month, day] = baseDateStr.split('-').map(Number)
+  const lastDayOfNewMonth = new Date(year, month + monthsToAdd, 0).getDate()
+  const targetDay = Math.min(day, lastDayOfNewMonth)
+  
+  const finalDate = new Date(year, month - 1 + monthsToAdd, targetDay)
+  const y = finalDate.getFullYear()
+  const m = String(finalDate.getMonth() + 1).padStart(2, '0')
+  const rDay = String(finalDate.getDate()).padStart(2, '0')
+  return `${y}-${m}-${rDay}`
+}
+
 // POST /api/transactions
 export async function POST(request: NextRequest) {
   try {
     const sql = getDb()
     const body = await request.json()
-    const { date, description, amount, type, category, installment_current, installment_total } = body
+    const { date, description, amount, type, category, installment_total } = body
 
     if (!date || !description || !amount || !type) {
       return NextResponse.json({ error: 'Campos obrigatórios faltando', success: false }, { status: 400 })
     }
 
-    const result = await sql`
-      INSERT INTO transactions (date, description, amount, type, category, installment_current, installment_total)
-      VALUES (
-        ${date},
-        ${description},
-        ${parseFloat(amount)},
-        ${type},
-        ${category || 'Outros'},
-        ${installment_current || null},
-        ${installment_total || null}
-      )
-      RETURNING *
-    `
+    const totalInstallments = installment_total ? parseInt(String(installment_total)) : 1
 
-    return NextResponse.json({ data: result[0], success: true }, { status: 201 })
+    if (totalInstallments > 1) {
+      const totalAmount = parseFloat(String(amount))
+      const installmentAmountBase = Math.round((totalAmount / totalInstallments) * 100) / 100
+      let sumCreated = 0
+      const insertPromises = []
+
+      for (let i = 1; i <= totalInstallments; i++) {
+        let currentAmount = installmentAmountBase
+        if (i === totalInstallments) {
+          currentAmount = Math.round((totalAmount - sumCreated) * 100) / 100
+        } else {
+          sumCreated += installmentAmountBase
+        }
+
+        const installmentDate = getInstallmentDate(date, i - 1)
+        
+        insertPromises.push(
+          sql`
+            INSERT INTO transactions (date, description, amount, type, category, installment_current, installment_total)
+            VALUES (
+              ${installmentDate},
+              ${description},
+              ${currentAmount},
+              ${type},
+              ${category || 'Outros'},
+              ${i},
+              ${totalInstallments}
+            )
+          `
+        )
+      }
+
+      await Promise.all(insertPromises)
+      
+      return NextResponse.json({ success: true }, { status: 201 })
+    } else {
+      const result = await sql`
+        INSERT INTO transactions (date, description, amount, type, category, installment_current, installment_total)
+        VALUES (
+          ${date},
+          ${description},
+          ${parseFloat(String(amount))},
+          ${type},
+          ${category || 'Outros'},
+          NULL,
+          NULL
+        )
+        RETURNING *
+      `
+      return NextResponse.json({ data: result[0], success: true }, { status: 201 })
+    }
   } catch (error) {
     console.error('POST /api/transactions error:', error)
     return NextResponse.json({ error: 'Erro ao criar transação', success: false }, { status: 500 })

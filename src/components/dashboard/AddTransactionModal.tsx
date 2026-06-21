@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { CATEGORIES } from '@/lib/utils'
+import { INCOMING_CATEGORIES, OUTGOING_CATEGORIES } from '@/lib/utils'
 import { toast } from 'sonner'
 import { PlusCircle, TrendingUp, TrendingDown } from 'lucide-react'
 
@@ -16,6 +16,14 @@ interface AddTransactionModalProps {
   onSuccess: () => void
   defaultMonth: number
   defaultYear: number
+}
+
+const getTodayString = () => {
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = String(today.getMonth() + 1).padStart(2, '0')
+  const day = String(today.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 export function AddTransactionModal({
@@ -28,11 +36,10 @@ export function AddTransactionModal({
   const [isLoading, setIsLoading] = useState(false)
   const [type, setType] = useState<'credit' | 'debit'>('debit')
   const [form, setForm] = useState({
-    date: `${defaultYear}-${String(defaultMonth).padStart(2, '0')}-01`,
+    date: getTodayString(),
     description: '',
     amount: '',
     category: 'Outros',
-    installment_current: '',
     installment_total: '',
   })
 
@@ -49,10 +56,11 @@ export function AddTransactionModal({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...form,
-          type,
+          date: form.date,
+          description: form.description,
           amount: parseFloat(form.amount.replace(',', '.')),
-          installment_current: form.installment_current ? parseInt(form.installment_current) : null,
+          category: form.category,
+          type,
           installment_total: form.installment_total ? parseInt(form.installment_total) : null,
         }),
       })
@@ -61,11 +69,10 @@ export function AddTransactionModal({
       if (data.success) {
         toast.success('Transação adicionada com sucesso!')
         setForm({
-          date: `${defaultYear}-${String(defaultMonth).padStart(2, '0')}-01`,
+          date: getTodayString(),
           description: '',
           amount: '',
-          category: 'Outros',
-          installment_current: '',
+          category: type === 'credit' ? 'Crédito' : 'Outros',
           installment_total: '',
         })
         onSuccess()
@@ -177,7 +184,7 @@ export function AddTransactionModal({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-800 border-slate-700">
-                {CATEGORIES.map(cat => (
+                {(type === 'credit' ? INCOMING_CATEGORIES : OUTGOING_CATEGORIES).map(cat => (
                   <SelectItem key={cat} value={cat} className="text-white hover:bg-slate-700 focus:bg-slate-700">
                     {cat}
                   </SelectItem>
@@ -187,31 +194,25 @@ export function AddTransactionModal({
           </div>
 
           {/* Installments */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <Label className="text-slate-300 text-sm">Parcela atual</Label>
-              <Input
-                id="input-installment-current"
-                type="number"
-                min="1"
-                value={form.installment_current}
-                onChange={e => setForm(f => ({ ...f, installment_current: e.target.value }))}
-                placeholder="Ex: 1"
-                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-slate-300 text-sm">Total de parcelas</Label>
-              <Input
-                id="input-installment-total"
-                type="number"
-                min="1"
-                value={form.installment_total}
-                onChange={e => setForm(f => ({ ...f, installment_total: e.target.value }))}
-                placeholder="Ex: 12"
-                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500"
-              />
-            </div>
+          <div className="space-y-1.5">
+            <Label className="text-slate-300 text-sm">Total de parcelas</Label>
+            <Input
+              id="input-installment-total"
+              type="number"
+              min="1"
+              value={form.installment_total}
+              onChange={e => setForm(f => ({ ...f, installment_total: e.target.value }))}
+              placeholder="Deixe em branco se for à vista. Ex: 12"
+              className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500"
+            />
+            {form.installment_total && parseInt(form.installment_total) > 1 && form.amount && (
+              <p className="text-xs text-blue-400 mt-1">
+                Serão adicionadas {form.installment_total} parcelas de {
+                  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+                    .format(parseFloat(form.amount.replace(',', '.')) / parseInt(form.installment_total))
+                } cada.
+              </p>
+            )}
           </div>
 
           {/* Buttons */}

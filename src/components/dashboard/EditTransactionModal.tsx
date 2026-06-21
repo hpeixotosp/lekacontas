@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { CATEGORIES } from '@/lib/utils'
+import { INCOMING_CATEGORIES, OUTGOING_CATEGORIES } from '@/lib/utils'
 import { Transaction } from '@/types/transaction'
 import { toast } from 'sonner'
 import { Edit2, TrendingUp, TrendingDown } from 'lucide-react'
@@ -59,6 +59,11 @@ export function EditTransactionModal({ transaction, onClose, onSuccess }: EditTr
     }
   }
 
+  const currentCategories = type === 'credit' ? INCOMING_CATEGORIES : OUTGOING_CATEGORIES
+  const displayCategories = currentCategories.includes(form.category)
+    ? currentCategories
+    : [...currentCategories, form.category]
+
   return (
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="bg-slate-900 border-slate-700 text-white max-w-md" id="modal-edit-transaction">
@@ -74,10 +79,15 @@ export function EditTransactionModal({ transaction, onClose, onSuccess }: EditTr
           <div className="flex rounded-xl overflow-hidden border border-slate-700 p-1 gap-1">
             <button
               type="button"
-              onClick={() => setType('credit')}
+              onClick={() => {
+                setType('credit')
+                if (!INCOMING_CATEGORIES.includes(form.category)) {
+                  setForm(f => ({ ...f, category: 'Crédito' }))
+                }
+              }}
               className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
                 type === 'credit'
-                  ? 'bg-blue-500 text-white'
+                  ? 'bg-blue-500 text-white shadow-lg'
                   : 'text-slate-400 hover:bg-white/5'
               }`}
             >
@@ -86,10 +96,15 @@ export function EditTransactionModal({ transaction, onClose, onSuccess }: EditTr
             </button>
             <button
               type="button"
-              onClick={() => setType('debit')}
+              onClick={() => {
+                setType('debit')
+                if (!OUTGOING_CATEGORIES.includes(form.category)) {
+                  setForm(f => ({ ...f, category: 'Outros' }))
+                }
+              }}
               className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
                 type === 'debit'
-                  ? 'bg-red-500 text-white'
+                  ? 'bg-red-500 text-white shadow-lg'
                   : 'text-slate-400 hover:bg-white/5'
               }`}
             >
@@ -140,7 +155,7 @@ export function EditTransactionModal({ transaction, onClose, onSuccess }: EditTr
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-800 border-slate-700">
-                {CATEGORIES.map(cat => (
+                {displayCategories.map(cat => (
                   <SelectItem key={cat} value={cat} className="text-white hover:bg-slate-700 focus:bg-slate-700">
                     {cat}
                   </SelectItem>
@@ -149,29 +164,21 @@ export function EditTransactionModal({ transaction, onClose, onSuccess }: EditTr
             </Select>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <Label className="text-slate-300 text-sm">Parcela atual</Label>
-              <Input
-                type="number"
-                min="1"
-                value={form.installment_current}
-                onChange={e => setForm(f => ({ ...f, installment_current: e.target.value }))}
-                placeholder="Ex: 1"
-                className="bg-slate-800 border-slate-700 text-white focus:border-blue-500"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-slate-300 text-sm">Total parcelas</Label>
-              <Input
-                type="number"
-                min="1"
-                value={form.installment_total}
-                onChange={e => setForm(f => ({ ...f, installment_total: e.target.value }))}
-                placeholder="Ex: 12"
-                className="bg-slate-800 border-slate-700 text-white focus:border-blue-500"
-              />
-            </div>
+          <div className="space-y-1.5">
+            <Label className="text-slate-300 text-sm">Total de parcelas</Label>
+            <Input
+              type="number"
+              min="1"
+              value={form.installment_total}
+              onChange={e => setForm(f => ({ ...f, installment_total: e.target.value }))}
+              placeholder="Ex: 12"
+              className="bg-slate-800 border-slate-700 text-white focus:border-blue-500"
+            />
+            {form.installment_current && form.installment_total && (
+              <p className="text-xs text-slate-400 mt-1">
+                Esta transação corresponde à parcela {form.installment_current} de {form.installment_total}.
+              </p>
+            )}
           </div>
 
           <div className="flex gap-3 pt-2">
@@ -186,7 +193,11 @@ export function EditTransactionModal({ transaction, onClose, onSuccess }: EditTr
             <Button
               type="submit"
               disabled={isLoading}
-              className="flex-1 bg-blue-500 hover:bg-blue-600 font-semibold"
+              className={`flex-1 font-semibold ${
+                type === 'credit'
+                  ? 'bg-blue-500 hover:bg-blue-600'
+                  : 'bg-red-500 hover:bg-red-600'
+              }`}
             >
               {isLoading ? 'Salvando...' : 'Salvar alterações'}
             </Button>

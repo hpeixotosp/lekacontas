@@ -38,7 +38,12 @@ export const CATEGORIES = [
   'Cartão Leka Caixa',
   'Máquina Gabi',
   'Outros',
+  'Compras Cartão',
+  'Mercado Livre',
 ]
+
+export const INCOMING_CATEGORIES = ['Crédito', 'Outros']
+export const OUTGOING_CATEGORIES = ['Shopee', 'Compras Cartão', 'Mercado Livre', 'Outros']
 
 export const CATEGORY_COLORS: Record<string, string> = {
   'Crédito': '#3b82f6',
@@ -47,4 +52,6 @@ export const CATEGORY_COLORS: Record<string, string> = {
   'Cartão Leka Caixa': '#ec4899',
   'Máquina Gabi': '#14b8a6',
   'Outros': '#6b7280',
+  'Compras Cartão': '#a855f7',
+  'Mercado Livre': '#facc15',
 }
