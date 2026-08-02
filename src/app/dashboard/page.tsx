@@ -21,8 +21,8 @@ interface ChartData {
 
 export default function DashboardPage() {
   const currentDate = new Date()
-  const [selectedMonth, setSelectedMonth] = useState(6) // Junho atual
-  const [selectedYear] = useState(2026)
+  const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1)
+  const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear())
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [chartData, setChartData] = useState<ChartData[]>([])
   const [isLoadingTransactions, setIsLoadingTransactions] = useState(true)

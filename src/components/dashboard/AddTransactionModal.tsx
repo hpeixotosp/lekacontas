@@ -35,6 +35,7 @@ export function AddTransactionModal({
 }: AddTransactionModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [type, setType] = useState<'credit' | 'debit'>('debit')
+  const [valueMode, setValueMode] = useState<'total' | 'installment'>('total')
   const [form, setForm] = useState({
     date: getTodayString(),
     description: '',
@@ -52,16 +53,23 @@ export function AddTransactionModal({
 
     setIsLoading(true)
     try {
+      const rawAmount = parseFloat(form.amount.replace(',', '.'))
+      const totalInstallments = form.installment_total ? parseInt(form.installment_total) : 1
+      
+      const finalAmount = valueMode === 'installment' && totalInstallments > 1
+        ? rawAmount * totalInstallments
+        : rawAmount
+
       const res = await fetch('/api/transactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           date: form.date,
           description: form.description,
-          amount: parseFloat(form.amount.replace(',', '.')),
+          amount: finalAmount,
           category: form.category,
           type,
-          installment_total: form.installment_total ? parseInt(form.installment_total) : null,
+          installment_total: form.installment_total ? totalInstallments : null,
         }),
       })
 
@@ -160,9 +168,40 @@ export function AddTransactionModal({
             />
           </div>
 
+          {/* Value Format Toggle */}
+          <div className="space-y-1.5">
+            <Label className="text-slate-400 text-xs font-semibold">Formato do Valor</Label>
+            <div className="flex rounded-lg overflow-hidden border border-slate-800 p-0.5 gap-0.5 bg-slate-950/40">
+              <button
+                type="button"
+                onClick={() => setValueMode('total')}
+                className={`flex-1 py-1 rounded text-xs font-medium transition-all duration-150 ${
+                  valueMode === 'total'
+                    ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-300 border border-transparent'
+                }`}
+              >
+                Valor Total da Compra
+              </button>
+              <button
+                type="button"
+                onClick={() => setValueMode('installment')}
+                className={`flex-1 py-1 rounded text-xs font-medium transition-all duration-150 ${
+                  valueMode === 'installment'
+                    ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-300 border border-transparent'
+                }`}
+              >
+                Valor por Parcela
+              </button>
+            </div>
+          </div>
+
           {/* Amount */}
           <div className="space-y-1.5">
-            <Label className="text-slate-300 text-sm">Valor (R$) *</Label>
+            <Label className="text-slate-300 text-sm">
+              {valueMode === 'total' ? 'Valor Total (R$) *' : 'Valor da Parcela (R$) *'}
+            </Label>
             <Input
               id="input-amount"
               type="number"
@@ -205,14 +244,27 @@ export function AddTransactionModal({
               placeholder="Deixe em branco se for à vista. Ex: 12"
               className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500"
             />
-            {form.installment_total && parseInt(form.installment_total) > 1 && form.amount && (
-              <p className="text-xs text-blue-400 mt-1">
-                Serão adicionadas {form.installment_total} parcelas de {
-                  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-                    .format(parseFloat(form.amount.replace(',', '.')) / parseInt(form.installment_total))
-                } cada.
-              </p>
-            )}
+            {form.installment_total && parseInt(form.installment_total) > 1 && form.amount && (() => {
+              const totalInstallments = parseInt(form.installment_total)
+              const amountVal = parseFloat(form.amount.replace(',', '.'))
+              const currencyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+              
+              if (valueMode === 'total') {
+                const calculatedInstallment = amountVal / totalInstallments
+                return (
+                  <p className="text-xs text-blue-400 mt-1">
+                    Serão adicionadas {totalInstallments} parcelas de {currencyFormatter.format(calculatedInstallment)} cada.
+                  </p>
+                )
+              } else {
+                const calculatedTotal = amountVal * totalInstallments
+                return (
+                  <p className="text-xs text-blue-400 mt-1">
+                    O valor total da compra será {currencyFormatter.format(calculatedTotal)} ({totalInstallments} parcelas de {currencyFormatter.format(amountVal)} cada).
+                  </p>
+                )
+              }
+            })()}
           </div>
 
           {/* Buttons */}
